@@ -14,3 +14,221 @@
   </div>
 </body>
 </html>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1>Register</h1>
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="/reg" id="registrationForm" method="POST">
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input type="text" class="form-control my_btn" id="username" name="username" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control my_btn" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" id="password" name="pass" required>
+                                <input type="checkbox" onclick="check_clicked(1,'password')" id="check1" class="check">
+                                <label for="check1">Show Password</label>
+                                <div id="invalid-feedback1" class="invalid-feedback">
+                                    Password must contain at least one number, one lowercase letter, one uppercase
+                                    letter, and be at least 6 characters long.
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top: 20px;">
+                                <label for="confirmPassword">Confirm Password</label>
+                                <input type="password" class="form-control" id="confirmPassword" name="cnfpass"
+                                    required>
+                                <input type="checkbox" onclick="check_clicked(2,'confirmPassword')" id="check2"
+                                    class="check">
+                                <label for="check2">Show Password</label>
+                                <div id="invalid-feedback2" class="invalid-feedback">
+                                    Passwords do not match.
+                                </div>
+                            </div>
+                            <button type="submit" id="submitButton" disabled class="btn btn-dark my_btn"
+                                style="margin-top: 20px;">Register</button>
+                            <button type="submit" style="display: none;" id="submitButton1"
+                                class="btn btn-dark my_btn">Register</button>
+                        </form>
+                        Already have an account? <a href="/login">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function check_clicked(a, b) {
+                let check = document.getElementById(`check${a}`);
+                if (check.checked) {
+                    document.getElementById(b).type = "text";
+                }
+                else {
+                    document.getElementById(b).type = "password";
+                }
+            }
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('registrationForm');
+            const password = document.getElementById('password');
+            const confirmPassword = document.getElementById('confirmPassword');
+            let pass_good = document.getElementById("invalid-feedback1");
+            let pass_match = document.getElementById("invalid-feedback2");
+            pass_good.style.display = "none";
+            pass_match.style.display = "none";
+            let a = 0;
+            const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+
+            
+
+            password.addEventListener('input', function () {
+                if (!passwordRegex.test(password.value)) {
+                    pass_good.style.display = "block";
+                    password.classList.add('is-invalid');
+                    password.classList.remove('is-valid');
+                } else {
+                    a = 1
+                    pass_good.style.display = "none";
+                    password.classList.add('is-valid');
+                    password.classList.remove('is-invalid');
+                }
+            });
+
+            confirmPassword.addEventListener('input', function () {
+                if (confirmPassword.value !== password.value) {
+                    pass_match.style.display = "block";
+                    confirmPassword.classList.add('is-invalid');
+                    confirmPassword.classList.remove('is-valid');
+                } else {
+                    if (a == 1) {
+                        pass_match.style.display = "none"
+                        document.getElementById("submitButton").style.display = "none";
+                        document.getElementById("submitButton1").style.display = "block";
+                        document.getElementById("submitButton1").style.marginTop = "20px";
+                        confirmPassword.classList.add('is-valid');
+                        confirmPassword.classList.remove('is-invalid');
+                    }
+                }
+            });
+
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    form.reportValidity();
+                }
+            });
+        });
+
+    </script>
+
+
+    <!-- <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const form = document.getElementById('registrationForm');
+                const submitButton = document.getElementById('submitButton');
+                const emailInput = document.getElementById('email');
+                const passwordInput = document.getElementById('password');
+                const confirmPasswordInput = document.getElementById('confirmPassword');
+
+                const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+                const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+
+                function validateForm(event) {
+                    if (!emailRegex.test(emailInput.value)) {
+                        alert('Invalid email format');
+                        emailInput.focus();
+                        event.preventDefault();
+                        return;
+                    }
+
+                    if (!passwordRegex.test(passwordInput.value)) {
+                        alert('Password must contain uppercase, lowercase, number, and be 6+ characters');
+                        passwordInput.focus();
+                        event.preventDefault();
+                        return;
+                    }
+
+                    if (passwordInput.value !== confirmPasswordInput.value) {
+                        alert('Passwords do not match');
+                        confirmPasswordInput.focus();
+                        event.preventDefault();
+                        return;
+                    }
+                }
+
+                form.addEventListener('submit', validateForm);
+            });
+            history.pushState(null, null, location.href);
+            window.onpopstate = function () {
+                history.go(1);
+            };
+        </script> -->
+
+    <!-- <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('registrationForm');
+            const pass = document.getElementById('password');
+            const cnfpass = document.getElementById('confirmPassword');
+            let pass_good=document.getElementById("invalid-feedback1");
+            let pass_match=document.getElementById("invalid-feedback2");
+            pass_good.style.display="none";
+            pass_match.style.display="none";
+
+            const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+
+            pass.addEventListener('input', function () {
+                if (!passwordRegex.test(pass.value)) {
+                    // pass.setCustomValidity('Password must contain at least one number, one lowercase letter, one uppercase letter, and be at least 6 characters long.');
+                    pass_good.style.display="block";
+                } else {
+                    pass.setCustomValidity('');
+                }
+            });
+
+            cnfpass.addEventListener('input', function () {
+                if (cnfpass.value !== pass.value) {
+                    // cnfpass.setCustomValidity('Passwords do not match.');
+                    pass_match.style.display="block";
+                } else {
+                    cnfpass.setCustomValidity('');
+                }
+            });
+
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    form.reportValidity();
+                }
+            });
+        });
+    </script> -->
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

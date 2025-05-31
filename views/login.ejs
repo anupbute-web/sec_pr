@@ -12,3 +12,98 @@
   </div>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Secret</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1>Login</h1>
+      <div class="row">
+        <div class="col-sm-8">
+          <div class="card">
+            <div class="card-body">
+              <form action="/login" method="POST">
+                <% if (typeof how !== 'undefined' && how == 1) { %>
+                <script>
+                  alert("Wrong password or email");
+                </script>
+                <% } %>
+
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input
+                    type="email"
+                    class="form-control my_btn"
+                    id="email"
+                    name="email"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <input
+                    type="password"
+                    class="form-control my_btn"
+                    id="password"
+                    name="pass"
+                    required
+                  />
+                  <input
+                    type="checkbox"
+                    onclick="check_clicked(1,'password')"
+                    id="check1"
+                    class="check"
+                  />
+                  <label for="check1">Show Password</label>
+                </div>
+                <button
+                  type="submit"
+                  id="login_btn"
+                  class="btn btn-dark my_btn"
+                >
+                  Login
+                </button>
+              </form>
+              dont have account then <a href="/reg">Register</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function check_clicked(a, b) {
+        let check = document.getElementById(`check${a}`);
+        if (check.checked) {
+          document.getElementById(b).type = "text";
+        } else {
+          document.getElementById(b).type = "password";
+        }
+      }
+    </script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
